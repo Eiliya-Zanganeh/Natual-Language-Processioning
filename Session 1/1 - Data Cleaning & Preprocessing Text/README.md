@@ -11,14 +11,14 @@ The primary goal is to remove any noise or irrelevant information that might neg
 
 > ⚠️ **Note:** The exact steps may vary depending on the project and your specific requirements.
 
-1. Remove `None` values from the text.
-2. Remove empty text entries.
-3. Remove duplicate data.
-4. Convert all letters to lowercase.
-5. Remove punctuation marks and special characters.
-6. Remove numbers from the text.
-7. Remove stopwords (common, non-informative words).
-8. Perform stemming or lemmatization to extract the root/base form of words.
+1. **Remove `None` values from the text.**
+2. **Remove empty text entries.**
+3. **Remove duplicate data.**
+4. **Convert all letters to lowercase.**
+5. **Remove punctuation marks and special characters.**
+6. **Remove numbers from the text.**
+7. **Remove stopwords (common, non-informative words).**
+8. **Perform stemming or lemmatization to extract the root/base form of words.**
 
 ---
 
