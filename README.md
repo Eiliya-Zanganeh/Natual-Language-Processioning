@@ -1,2 +1,2 @@
-# Natual-Lnaguage-Proceccesing
-Natual Lnaguage Proceccesing Learning
+# Natual Natual Language Processioning
+Natual Language Processioning Learning
