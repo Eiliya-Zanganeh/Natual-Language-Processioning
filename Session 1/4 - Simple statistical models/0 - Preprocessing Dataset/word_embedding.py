@@ -52,7 +52,7 @@ class ConvertTextToVector:
 
         vectors_dict = {
             "sentence_vectors": np.array(vector_batches, dtype=np.float32),
-            "labels": np.array(label_batches, dtype=np.float32)
+            "labels": np.array(label_batches, dtype=np.uint8)
         }
         np.save(f"Dataset/vector_dataset.npy", vectors_dict)
         print(f"vectors_dict_last.npy Saved!")
