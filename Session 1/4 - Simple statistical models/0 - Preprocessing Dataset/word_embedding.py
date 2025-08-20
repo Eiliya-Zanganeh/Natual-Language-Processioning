@@ -30,8 +30,8 @@ class ConvertTextToVector:
             "words": np.array(model.wv.index_to_key),
             "vectors": np.array(model.wv.vectors, dtype=np.float32)
         }
-        np.save("Dataset/fasttext_model.npy", word_vectors_dict)
-        print("fasttext_model.npy Saved!")
+        np.savez("Dataset/fasttext_model.npz", **word_vectors_dict)
+        print("fasttext_model.npz Saved!")
 
         print("Start Convert Sentences To Vector...")
         vector_batches = []
@@ -54,8 +54,8 @@ class ConvertTextToVector:
             "sentence_vectors": np.array(vector_batches, dtype=np.float32),
             "labels": np.array(label_batches, dtype=np.uint8)
         }
-        np.save(f"Dataset/vector_dataset.npy", vectors_dict)
-        print(f"vectors_dict_last.npy Saved!")
+        np.savez(f"Dataset/vector_dataset.npz", **vectors_dict)
+        print(f"vectors_dict_last.npz Saved!")
 
     def apply_padding(self, sentence):
         if len(sentence) < self.max_length:
