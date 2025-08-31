@@ -17,13 +17,16 @@ the text 💻. There are various methods for this task, each with its own advant
 4. **Word2Vec** 🧠
    Producing dense numeric vectors that preserve the semantic relationships between words.
 
-5. **GloVe** 🌐
+5. **Doc2Vec**
+   Doc2Vec can map an entire sentence, paragraph, or document into a dense, fixed-length vector.
+
+6. **GloVe** 🌐
    A method similar to Word2Vec that uses overall word co-occurrence statistics.
 
-6. **FastText** ⚡
+7. **FastText** ⚡
    Creating word vectors by considering subwords, suitable for complex languages.
 
-7. **ELMo** 🔍
+8. **ELMo** 🔍
    Generating context-dependent (contextual) word vectors based on the entire sentence.
 
 ## 📊 Overall Comparison of Methods
@@ -34,6 +37,7 @@ the text 💻. There are various methods for this task, each with its own advant
 | **BoW**           | ❌              | ❌                       | Low           | Simple models, small datasets                          |
 | **TF-IDF**        | ❌              | ❌                       | Low           | Search, traditional text classification                |
 | **Word2Vec**      | ✅              | ❌                       | Medium        | Medium complexity models, general use                  |
+| **Doc2Vec**       | ✅              | ❌                       | Medium        | Similar to Word2Vec applications                       |
 | **GloVe**         | ✅              | ❌                       | Medium        | Similar to Word2Vec applications                       |
 | **FastText**      | ✅              | ✅                       | Medium        | Multilingual and complex languages                     |
 | **ELMo**          | ✅              | ✅                       | High          | Advanced NLP projects                                  |
@@ -41,7 +45,8 @@ the text 💻. There are various methods for this task, each with its own advant
 ## ✅ Conclusion
 
 * For simple projects and small datasets, **Word Indexing**, **BoW**, and **TF-IDF** are fast and effective options ⚡.
-* To preserve semantic relationships between words, **Word2Vec**, **GloVe**, and especially **FastText** (good for new
+* To preserve semantic relationships between words, **Word2Vec**, **Doc2Vec**, **GloVe**, and especially **FastText** (
+  good for new
   words) are recommended 🧩.
 * For advanced projects requiring precise understanding of context, **ELMo** is the best choice 🎓.
 
