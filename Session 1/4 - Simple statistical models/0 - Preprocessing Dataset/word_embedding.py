@@ -1,37 +1,33 @@
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
-from gensim.models import FastText
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
 from nltk import download
+
 
 # download("punkt")
 
 
 class ConvertTextToVector:
     def __call__(self, dataset, vector_size, text_column, label_column):
-        self.vector_size = vector_size
         sentences = dataset[text_column].apply(lambda x: word_tokenize(x)).tolist()
-        self.max_length = max(len(sentence) for sentence in sentences)
         labels = dataset[label_column].tolist()
-        print("Start FastText Learning...")
-        model = FastText(
-            sentences,
-            vector_size=self.vector_size,
+        tagged_data = [TaggedDocument(words=sent, tags=[str(i)]) for i, sent in enumerate(sentences)]
+        print("Start Doc2Vec Learning...")
+        model = Doc2Vec(
+            vector_size=vector_size,
             window=3,
             min_count=1,
-            epochs=10,
-            sg=1,
-            min_n=3,
-            max_n=6,
-            workers=4
+            workers=4,
+            dm=1
         )
-        word_vectors_dict = {
-            "words": np.array(model.wv.index_to_key),
-            "vectors": np.array(model.wv.vectors, dtype=np.float32)
-        }
-        np.savez("Dataset/fasttext_model.npz", **word_vectors_dict)
-        print("fasttext_model.npz Saved!")
+        model.build_vocab(tagged_data)
+
+        model.train(tagged_data, total_examples=model.corpus_count, epochs=40)
+
+        model.save("Dataset/doc2vec_model.model")
+        print("doc2vec_model.model Saved!")
 
         print("Start Convert Sentences To Vector...")
         vector_batches = []
@@ -41,13 +37,9 @@ class ConvertTextToVector:
             sentence = sentences[idx]
             label = labels[idx]
 
-            sentence_array = np.array(
-                [model.wv[word] for word in sentence if word in model.wv],
-                dtype=np.float32
-            )
-            sentence_array = convertor.apply_padding(sentence_array)
+            sentence_vector = model.infer_vector(sentence)
 
-            vector_batches.append(sentence_array)
+            vector_batches.append(sentence_vector)
             label_batches.append(label)
 
         vectors_dict = {
@@ -55,17 +47,10 @@ class ConvertTextToVector:
             "labels": np.array(label_batches, dtype=np.uint8)
         }
         np.savez(f"Dataset/vector_dataset.npz", **vectors_dict)
-        print(f"vectors_dict_last.npz Saved!")
-
-    def apply_padding(self, sentence):
-        if len(sentence) < self.max_length:
-            padding_size = self.max_length - len(sentence)
-            padding = np.zeros((padding_size, self.vector_size))
-            sentence = np.vstack((sentence, padding))
-        return sentence
+        print(f"vector_dataset.np Saved!")
 
 
 if __name__ == "__main__":
     convertor = ConvertTextToVector()
     df = pd.read_excel("Dataset/IMDB Dataset 5K Cleaned.xlsx")
-    convertor(df, 100, text_column="review", label_column="sentiment")
+    convertor(df, 50, text_column="review", label_column="sentiment")
